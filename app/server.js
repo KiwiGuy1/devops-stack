@@ -8,9 +8,9 @@ app.use(express.json());
 const pool = new Pool({
   host: "db",
   port: 5432,
-  user: "postgres",
-  password: "secret",
-  database: "postgres",
+  user: "myuser",
+  password: "mypassword",
+  database: "myapp",
 });
 
 app.get("/", (req, res) => {

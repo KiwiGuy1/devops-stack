@@ -1,17 +1,27 @@
 services:
   app:
     build: ./app
+    container_name: app
+    expose:
+      - "3000"
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
     ports:
-      - "3000:3000"
+      - "80:80"
     depends_on:
-      - db
+      - app
 
   db:
-    image: postgres:16
+    image: postgres:17
+    container_name: db
     environment:
-      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: myapp
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
-  pgdata:
+  postgres_data:
