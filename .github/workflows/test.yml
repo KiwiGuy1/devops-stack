@@ -1,4 +1,4 @@
-name: Test App
+name: Test and Deploy
 
 on:
   push:
@@ -21,5 +21,20 @@ jobs:
           node-version: 22
 
       - run: npm ci
-
       - run: npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd ~/devops-stack
+            git pull
+            docker compose up -d --build
