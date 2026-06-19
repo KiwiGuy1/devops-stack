@@ -23,8 +23,19 @@ jobs:
       - run: npm ci
       - run: npm test
 
+  lint-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y yamllint
+      - run: yamllint compose.yaml
+
+
   deploy:
-    needs: test
+    needs: ["test", "lint-test"]
     runs-on: ubuntu-latest
 
     steps:
