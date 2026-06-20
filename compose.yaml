@@ -48,9 +48,9 @@ services:
       - grafana_data:/var/lib/grafana
     depends_on:
       - prometheus
-  node-exporter:
+  node_exporter:
     image: prom/node-exporter:latest
-    container_name: node-exporter
+    container_name: node_exporter
     expose:
       - "9100"
 volumes:
